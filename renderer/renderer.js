@@ -1,18 +1,19 @@
 // everything that happens on the UI...
 const { ipcRenderer } = require('electron');
 const validUrl = require('valid-url');
-const { addNewItem, storage, save, changeSelection, open } = require('./items');
+const { addNewItem, deleteItem, storage, save, changeSelection, open } = require('./items');
 
 const showModal = document.getElementById('show-modal');
 const closeModal = document.getElementById('close-modal');
 const modal = document.getElementById('modal');
 const addItem = document.getElementById('add-item');
+const deleteButton = document.getElementById('delete-item');
 const noItems = document.getElementById('no-items');
 const items = document.getElementById('items');
 const itemUrl = document.getElementById('url');
 const search = document.getElementById('search');
 
-items.childNodes.length ? noItems.style.display = 'none' : null;
+items.childNodes.length ? noItems.style.display = 'none' : noItems.style.display = 'block';
 
 const toggleModalButtons = () => {
     if (!addItem.disabled) {
@@ -74,4 +75,5 @@ ipcRenderer.on('created-new-item', (e, newItem) => {
     // hide modal and clear input value 
     itemUrl.value = '';
     closeModal.click();
+    noItems.style.display = 'none'
 });
