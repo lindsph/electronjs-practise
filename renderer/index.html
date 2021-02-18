@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./index.css">
+    <title>Readit</title>
+</head>
+<body>
+    <header>
+        <input type="search" id="search" placeholder="Search">
+        <button id="show-modal"></button>
+    </header>
+
+    <main>
+        <p id="no-items">No Items</p>
+        <div id="items"></div>
+    </main>
+
+    <div id="modal">
+        <div id="modal-body">
+            <div>
+                <label for="url">Enter URL</label>
+                <input type="text" id="url" placeholder="Type URL here...">
+            </div>
+            <div id="button-wrapper">
+                <button id="add-item">Add Item</button>
+                <button id="close-modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        require('./renderer');
+    </script>
+</body>
+</html>
