@@ -5,7 +5,7 @@ const buildMenu = async appWin => {
         return appWin.executeJavaScript('JSON.parse(localStorage.getItem("readit-items"));');
     };
 
-    const storage = await getStorage();
+    const isStorage = await getStorage();
 
     const template = [
         {
@@ -22,7 +22,7 @@ const buildMenu = async appWin => {
                 {
                     label: 'Read Item',
                     accelerator: 'CmdOrCtrl+Enter',
-                    enabled: storage.length ? true : false,
+                    enabled: isStorage ? true : false,
                     click: () => {
                         appWin.send('menu-open-item');
                     }

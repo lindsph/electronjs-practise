@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const { updater } = require('./updater');
 const { readItem } = require('./readItem');
 const { buildMenu } = require('./menu');
 
@@ -7,6 +8,9 @@ const { buildMenu } = require('./menu');
 let mainWindow;
 
 const createWindow = () => {
+
+    // check for app updates after 3 seconds
+    setTimeout(updater, 3000);
 
     const state = windowStateKeeper({
         defaultWidth: 500, defaultHeight: 650
@@ -33,7 +37,7 @@ const createWindow = () => {
     buildMenu(mainWebContents);
 
     // open dev tools 
-    // mainWebContents.openDevTools();
+    mainWebContents.openDevTools();
 
     // listen for window being closed
     mainWindow.on('closed', () => {
