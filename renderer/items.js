@@ -1,3 +1,4 @@
+const { shell } = require('electron');
 const fs = require('fs');
 
 const noItems = document.getElementById('no-items');
@@ -5,9 +6,9 @@ const items = document.getElementById('items');
 let storage = JSON.parse(localStorage.getItem('readit-items')) || [];
 let readerJS;
 
-fs.readFile(`${__dirname}/reader.js`, (error, data) => {
-    readerJS = data.toString();
-});
+// fs.readFile(`${__dirname}/reader.js`, (error, data) => {
+//     readerJS = data.toString();
+// });
 
 // persist storage
 const save = () => {
@@ -20,6 +21,13 @@ const select = (e) => {
     selectedItems.length ? selectedItems[0].classList.remove('selected') : null;
 
     e.currentTarget.classList.add('selected');
+};
+
+const defaultSelect = () => {
+    const individualItems = [...document.getElementsByClassName('read-item')];
+    const selectedItems = [...document.getElementsByClassName('read-item selected')];
+    if (!individualItems.length || selectedItems.length) return;
+    individualItems[0].classList.add('selected');
 };
 
 const changeSelection = (direction) => {
@@ -56,6 +64,16 @@ const open = () => {
     // readerWindow.eval(readerJS);
 };
 
+const openNative = () => {
+    if (!storage.length) return;
+
+    const selectedItem = document.getElementsByClassName('read-item selected')[0];
+    const itemUrl = selectedItem.dataset.url;
+
+    // open in user's default browser
+    shell.openExternal(itemUrl);
+};
+
 const addNewItem = (item, isNew = false) => {
     const itemNode = document.createElement('div');
     itemNode.setAttribute('class', 'read-item');
@@ -77,23 +95,31 @@ const addNewItem = (item, isNew = false) => {
         storage.push(item);
         save();
     }
+
+    defaultSelect();
 };
 
-const deleteItem = (e) => {
-    const parentNode = e.target.parentNode;
-
-    let index = 0;
-    let element = parentNode;
-    while (element = element.previousSibling) { index++; }
+const deleteItem = () => {
+    let index;
+    let element;
+    const selectedItem = document.getElementsByClassName('read-item selected')[0];
+    
+    index = 0;
+    element = selectedItem;
+    while (element.previousSibling) { 
+        element = element.previousSibling;
+        index++; 
+    }
+    element.remove(); 
+    defaultSelect();
     
     // update storage then save
     let storageCopy = [...storage];
     storageCopy.splice(index, 1);
     storage = storageCopy;
     save();
-
-    parentNode.remove();
     !storage.length ? noItems.style.display = 'block' : noItems.style.display = 'none';
+
 };
 
 // add items from storage when app loads
@@ -101,11 +127,14 @@ storage.forEach(item => {
     addNewItem(item);
 });
 
+defaultSelect();
+
 module.exports = {
     addNewItem,
     deleteItem,
     storage,
     save,
     changeSelection,
-    open
+    open,
+    openNative
 }

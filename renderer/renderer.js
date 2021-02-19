@@ -1,7 +1,7 @@
 // everything that happens on the UI...
 const { ipcRenderer } = require('electron');
 const validUrl = require('valid-url');
-const { addNewItem, deleteItem, storage, save, changeSelection, open } = require('./items');
+const { addNewItem, deleteItem, storage, save, changeSelection, open, openNative } = require('./items');
 
 const showModal = document.getElementById('show-modal');
 const closeModal = document.getElementById('close-modal');
@@ -76,4 +76,24 @@ ipcRenderer.on('created-new-item', (e, newItem) => {
     itemUrl.value = '';
     closeModal.click();
     noItems.style.display = 'none'
+});
+
+ipcRenderer.on('menu-show-modal', () => {
+    showModal.click();
+});
+
+ipcRenderer.on('menu-open-item', () => {
+    open();
+});
+
+ipcRenderer.on('menu-delete-item', (e) => {
+    deleteItem();
+});
+
+ipcRenderer.on('menu-open-item-native', () => {
+    openNative();
+});
+
+ipcRenderer.on('menu-focus-search', () => {
+    search.focus();
 });

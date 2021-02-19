@@ -21,16 +21,16 @@ const createWindow = () => {
         }
     });
 
-    buildMenu();
-
+    
     // load index.html into mainWindow
     mainWindow.loadFile('./renderer/index.html');
-
+    
     // manage state for the mainWindow
     state.manage(mainWindow);
-
+    
     // reference to mainWindow's webContents
     const mainWebContents = mainWindow.webContents;
+    buildMenu(mainWebContents);
 
     // open dev tools 
     mainWebContents.openDevTools();
