@@ -33,7 +33,7 @@ const createWindow = () => {
     buildMenu(mainWebContents);
 
     // open dev tools 
-    mainWebContents.openDevTools();
+    // mainWebContents.openDevTools();
 
     // listen for window being closed
     mainWindow.on('closed', () => {

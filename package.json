@@ -1,21 +1,37 @@
 {
-  "name": "electron-project",
+  "name": "electron-project-readit",
   "version": "1.0.0",
-  "description": "",
+  "description": "Electron Project Readit",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "watch": "nodemon --exec electron ."
+    "watch": "nodemon --exec electron .",
+    "build": "electron-builder build -mwl"
   },
   "keywords": [],
-  "author": "",
+  "author": "Lindsay Power-Harding",
   "license": "ISC",
   "devDependencies": {
     "electron": "^11.2.3",
+    "electron-builder": "^22.9.1",
     "nodemon": "^2.0.7"
   },
   "dependencies": {
     "electron-window-state": "^5.0.3",
     "valid-url": "^1.0.9"
+  },
+  "build": {
+    "appId": "com.electron.electron-project-readit",
+    "copyright": "Lindsay Power-Harding",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "zip"
+    },
+    "linux": {
+      "category": "Utility"
+    }
   }
 }
